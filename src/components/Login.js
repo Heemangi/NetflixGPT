@@ -1,19 +1,57 @@
 import { validateData } from "../utils/validate";
 import Header from "./Header";
 import { useRef, useState } from "react";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../utils/firebase";
 
 const Login = () => {
     const [isSignInForm, setIsSignIForm] = useState(true);
     const [errorMessage, setErrorMessage] = useState();
+
     const email = useRef(null);
     const password = useRef(null);
+
     const toggleSignInForm = () =>{
         setIsSignIForm(!isSignInForm);
     }
+
     const handleButtonClick = () => {
         //Validating form data
         const message = validateData(email.current.value ,password.current.value);
         setErrorMessage(message);
+        if (message) return;
+
+        if (!isSignInForm) {
+            //This is Sign up Logic
+            createUserWithEmailAndPassword(auth, email.current.value ,password.current.value)
+                .then((userCredential) => {
+                     // Signed up 
+                    const user = userCredential.user;
+                    console.log(user);
+                        // ...
+                 })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    setErrorMessage(errorCode + errorMessage)
+                    // ..
+                });
+        } else {
+            // This is Sign In Logic
+            const auth = getAuth();
+            signInWithEmailAndPassword(auth, email.current.value ,password.current.value)
+                .then((userCredential) => {
+                    // Signed in 
+                    const user = userCredential.user;
+                    // ...
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    setErrorMessage(errorCode + errorMessage)
+                });
+
+        }
     }
   return (
     <div>
