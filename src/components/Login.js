@@ -1,18 +1,23 @@
 import { validateData } from "../utils/validate";
 import Header from "./Header";
 import { useRef, useState } from "react";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../utils/firebase";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
 
 const Login = () => {
-    const [isSignInForm, setIsSignIForm] = useState(true);
+    const [isSignInForm, setIsSignInForm] = useState(true);
     const [errorMessage, setErrorMessage] = useState();
-
+    const dispatch = useDispatch()
+    const navigate = useNavigate();
+    const name = useRef(null);
     const email = useRef(null);
     const password = useRef(null);
 
     const toggleSignInForm = () =>{
-        setIsSignIForm(!isSignInForm);
+        setIsSignInForm(!isSignInForm);
     }
 
     const handleButtonClick = () => {
@@ -27,14 +32,29 @@ const Login = () => {
                 .then((userCredential) => {
                      // Signed up 
                     const user = userCredential.user;
-                    console.log(user);
+                    //Adding functionality for display name here...
+                    updateProfile(user, {
+                        displayName: name.current.value, photoURL: "https://play-lh.googleusercontent.com/RX3ntjobJrEdwSgntRwSejMCjyeXrtEKpH4QrF-ikBjiEJFrqCdVEcp1LZOJ8T4ArQ"
+                      }).then(() => {
+                        // Profile updated!
+                        //auth has the updated value, that's why we use auth in place of user
+                        const {uid, email, displayName, photoURL} = auth.currentUser;
+                        dispatch(addUser({ uid: uid, email: email, displayName: displayName, photoURL: photoURL}));
+                        navigate("/browse");
+                      }).catch((error) => {
+                        // An error occurred
+                        setErrorMessage(error.message);
                         // ...
+                      });
+                      
+                    console.log(user);
+                    navigate("/browse")
                  })
                 .catch((error) => {
                     const errorCode = error.code;
                     const errorMessage = error.message;
                     setErrorMessage(errorCode + errorMessage)
-                    // ..
+                    
                 });
         } else {
             // This is Sign In Logic
@@ -43,7 +63,7 @@ const Login = () => {
                 .then((userCredential) => {
                     // Signed in 
                     const user = userCredential.user;
-                    // ...
+                    navigate("/browse")
                 })
                 .catch((error) => {
                     const errorCode = error.code;
@@ -62,7 +82,7 @@ const Login = () => {
         </div>
         <form onSubmit={(e) => e.preventDefault() } className=" text-white w-3/12 absolute p-12 bg-black my-36 mx-auto right-0 left-0 bg-opacity-80 rounded-md">
             <h1 className="font-bold text-3xl py-4"> {isSignInForm ? "Sign In" : "Sign Up"}</h1>
-            {!isSignInForm && <input type="text" placeholder="Full Name" className="p-4 my-4 w-full bg-gray-600 rounded-lg"/>}
+            {!isSignInForm && <input ref={name} type="text" placeholder="Full Name" className="p-4 my-4 w-full bg-gray-600 rounded-lg"/>}
             <input ref={email} type="text" placeholder="Email Address" className="p-4 my-4 w-full bg-gray-600 rounded-lg"/>
             <input ref={password} type="password" placeholder="Password" className="p-4 my-4 w-full bg-gray-600 rounded-lg"/>
             <p className="text-red-400 py-2 text-md">{errorMessage}</p>
