@@ -1,20 +1,36 @@
-import { signOut } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { addUser, removeUser } from "../utils/userSlice";
 
 const Header = () => {
   const navigate = useNavigate();
+  const dispatch= useDispatch();
   const user = useSelector((store) => store.user);
   const handleSignOut = () => {
     signOut(auth).then(() => {
-      // Sign-out successful.
-      navigate("/");
     }).catch((error) => {
       // An error happened.
       navigate("/error");
     });
   }
+//Doing routing from here only nowhere else.
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+          
+          const {uid, email, displayName, photoURL} = user;
+          dispatch(addUser({ uid: uid, email: email, displayName: displayName, photoURL: photoURL}))
+          navigate("/browse")
+        } else {
+          dispatch(removeUser());
+          navigate("/")
+          
+        }
+      });
+}, []);
 
   return (
     <div className="logopositioning absolute justify-between flex w-screen px-8 py-2 bg-gradient-to-b from-black z-10">
