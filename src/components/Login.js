@@ -5,6 +5,7 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, up
 import { auth } from "../utils/firebase";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
+import { USER_AVATAR } from "../utils/constants";
 
 const Login = () => {
     const [isSignInForm, setIsSignInForm] = useState(true);
@@ -29,16 +30,14 @@ const Login = () => {
             //This is Sign up Logic
             createUserWithEmailAndPassword(auth, email.current.value ,password.current.value)
                 .then((userCredential) => {
-                     // Signed up 
                     const user = userCredential.user;
-                    //Adding functionality for display name here...
                     updateProfile(user, {
-                        displayName: name.current.value, photoURL: "https://play-lh.googleusercontent.com/RX3ntjobJrEdwSgntRwSejMCjyeXrtEKpH4QrF-ikBjiEJFrqCdVEcp1LZOJ8T4ArQ"
-                      }).then(() => {
+                        displayName: name.current.value, photoURL: USER_AVATAR,})
+                        .then(() =>{
                         // Profile updated!
                         //auth has the updated value, that's why we use auth in place of user
                         const {uid, email, displayName, photoURL} = auth.currentUser;
-                        dispatch(addUser({ uid: uid, email: email, displayName: displayName, photoURL: photoURL}));
+                        dispatch(addUser({ uid: uid, email: email, displayName: displayName, photoURL: photoURL,}));
                         
                       }).catch((error) => {
                         // An error occurred
