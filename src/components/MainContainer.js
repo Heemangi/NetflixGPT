@@ -10,15 +10,15 @@ const MainContainer = () => {
     //This will give an error directly that's why added null logic above.
     //This is also known as early return.
 
-    const mainMovie = movies[1];
+    const mainMovie = movies[7];
     console.log(mainMovie);
-
-    const { original_title, overview } = mainMovie;
+//Extract the things to be used here.
+    const { original_title, overview,id } = mainMovie;
 //Passed to videotitle props
     return (
     <div>
         <VideoTitle title={original_title} overview={overview}/>
-        <VideoBackground/>
+        <VideoBackground movieId={id}/>
     </div>
   )
 }
