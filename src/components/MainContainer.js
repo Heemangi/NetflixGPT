@@ -10,7 +10,7 @@ const MainContainer = () => {
     //This will give an error directly that's why added null logic above.
     //This is also known as early return.
 
-    const mainMovie = movies[7];
+    const mainMovie = movies[5];
     console.log(mainMovie);
 //Extract the things to be used here.
     const { original_title, overview,id } = mainMovie;
