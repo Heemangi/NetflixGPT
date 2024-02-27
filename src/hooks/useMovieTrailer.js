@@ -1,10 +1,11 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addTrailerVideo } from "../utils/moviesSlice";
 import { useEffect } from "react";
 import { API_OPTIONS } from "../utils/constants";
 
 const useMovieTrailer = (movieId) => {
     const dispatch = useDispatch();
+    const trailerVideo = useSelector((store) => store.movie.trailerVideo)
     //const [trailerId, setTrailerId] = useState()
   //Fetch the trailer video and updating the store with the videod data
   const getMovieVideos = async() => {
@@ -13,7 +14,7 @@ const useMovieTrailer = (movieId) => {
     console.log(json);
     const filterData = json?.results?.filter((video) => video.type === "Trailer");
     const trailer = filterData.length === 0? filterData[0]:json.results[0];
-    console.log(trailer);
+    //console.log(trailer);
     //setTrailerId(trailer.key);
     //we provide trailerid to the src. this is one way to do this action. 
     //We will do using redux only. Dispatching an action here
@@ -22,6 +23,7 @@ const useMovieTrailer = (movieId) => {
   }
 
   useEffect(()=>{
+    if(!trailerVideo)
     getMovieVideos();
   },[]); 
 
