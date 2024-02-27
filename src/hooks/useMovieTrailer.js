@@ -5,7 +5,7 @@ import { API_OPTIONS } from "../utils/constants";
 
 const useMovieTrailer = (movieId) => {
     const dispatch = useDispatch();
-    const trailerVideo = useSelector((store) => store.movie.trailerVideo)
+    const trailerVideo = useSelector((store) => store.movies.trailerVideo)
     //const [trailerId, setTrailerId] = useState()
   //Fetch the trailer video and updating the store with the videod data
   const getMovieVideos = async() => {

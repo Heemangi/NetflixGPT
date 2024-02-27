@@ -6,7 +6,7 @@ export const API_OPTIONS = {
   method: 'GET',
   headers: {
     accept: 'application/json',
-    Authorization: 'Bearer ' + process.env.REACT_APP_TMDB_KEY,
+    Authorization: 'Bearer' + process.env.REACT_APP_TMDB_KEY,
   },
 };
 
@@ -18,3 +18,4 @@ export const BG_URL = "https://assets.nflxext.com/ffe/siteui/vlv3/5e16108c-fd30-
 export const SUPPORTED_LANGUAGES = [{identifier: "en", name: "English"}, {identifier: "hindi", name: "Hindi"}];
 
 export const OPENAI_KEY = process.env.REACT_APP_OPENAI_KEY;
+

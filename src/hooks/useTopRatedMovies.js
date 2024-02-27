@@ -5,7 +5,7 @@ import { API_OPTIONS } from "../utils/constants";
 
 const useTopRatedMovies = () => {
     const dispatch = useDispatch();
-    const topRatedMovies = useSelector((store) => store.movie.topRatedMovies)
+    const topRatedMovies = useSelector((store) => store.movies.topRatedMovies)
 
 
   const getTopRatedMovies = async() => {

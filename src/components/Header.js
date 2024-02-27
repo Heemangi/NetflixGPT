@@ -53,18 +53,15 @@ const Header = () => {
 
 
   return (
-    <div className="logopositioning absolute justify-between flex w-screen px-8 py-2 bg-gradient-to-b from-black z-10">
-        <img className="logosizing w-44"
+    <div className="logopositioning absolute w-screen px-8 py-2 bg-gradient-to-b from-black z-10 flex flex-col md:flex-row justify-between">
+        <img className="logosizing w-44 mx-auto md:mx-0"
         src={LOGO}
         alt="logo"/>
-        {user && (<div className="flex p-2 space-x-2">
+        {user && (<div className="flex p-2 justify-between">
           {showGptSearch && <select className=" rounded-lg p-2 bg-gray-900 text-white mx-2 h-12" onChange={handleLanguageChange}>
             {SUPPORTED_LANGUAGES.map(lang => <option key={lang.identifier} value = {lang.identifier}>{lang.name}</option> )}
           </select>}
-          {/* <select> // Only if ShowGPTSearch is true
-            <option value = "en">English</option>
-            <option value = "hindi">Hindi</option>
-          </select> */}
+          
         <button className="py-2 px-4 mx-4 bg-red-400 text-white rounded-lg h-12"
         onClick={handleGptSearchClick}
         >{showGptSearch ? "Home Page" : "GPT Mode"}</button>
