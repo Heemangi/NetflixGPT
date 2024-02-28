@@ -6,8 +6,8 @@ import { BG_URL } from '../utils/constants';
 const GptSearch = () => {
   return (
     <>
-    <div className="fixed -z-10 opacity-70 bg-repeat">
-            <img className="h-screen object-cover" src={BG_URL} alt="banner"/>
+    <div className="fixed inset-0 -z-10 opacity-70 bg-repeat">
+            <img className="h-screen object-cover w-full" src={BG_URL} alt="banner"/>
     </div>
 
     <div className=''>

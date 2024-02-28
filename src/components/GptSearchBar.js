@@ -53,9 +53,9 @@ const GptSearchBar = () => {
     };
 
   return (
-    <div className='pt-[35%] md:pt-[10%] flex justify-center'>
+    <div className=' pt-[40%] md:pt-[10%] flex justify-center'>
         <form 
-        className='w-full md:w-1/2 bg-black grid grid-cols-12'
+        className='px-2 w-full md:w-1/2 bg-black grid grid-cols-12'
         onSubmit={(e) => e.preventDefault()}>
             <input 
             ref= {searchText}
@@ -63,7 +63,7 @@ const GptSearchBar = () => {
             className='p-4 m-4 col-span-9 rounded-lg' 
             placeholder={lang[langKey].gptSearchPlaceholder}/>
             {/**lang[langKey] to make it dynamic since langkey is not defined anywhere in slice*/}
-            <button className=' col-span-3 m-4 py-2 px-4 bg-red-600 text-white rounded-lg'
+            <button className=' col-span-3 my-4 md:m-4 py-2 px-4 bg-red-600 text-white rounded-lg'
             onClick={handleGptSearchClick}
             >
                 {lang[langKey].search}</button>
